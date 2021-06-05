@@ -8,15 +8,16 @@ const StateProvider = ({ children }) => {
   const [state, dispatch] = useReducer((state, action) => {
     switch (action.type) {
       case Types.LOADING_START: {
-        return [{ ...state, isLoading: true }];
+        return  {...state, isLoading: true };
       }
 
       case Types.LOADING_DONE: {
-        return [{ ...state, isLoading: false }];
+        return  {...state, isLoading: false };
       }
 
+      //todo: fix this part to show both username and chatroom data
       case Types.SET_STAGE: {
-        return [{ ...state, stage: action.payload }];
+        return {...state, stage: {...action.payload} };
       }
 
       default:
