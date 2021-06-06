@@ -4,6 +4,7 @@ html {
 }
 
 .background{
+  min-height:500px;
   height: 100%;
   position:absolute;
   top:0;
@@ -24,4 +25,23 @@ html {
 
 .main-container {
   padding-top: 15%;
+}
+
+h1{
+  font-family: 'Caveat', cursive;
+  font-size: 4rem !important;
+  color: #fff;
+  text-shadow: 0px 0px 10px black;
+}
+
+h2{
+  font-family: 'Amatic SC', cursive;
+  margin-bottom: 50px !important;
+}
+
+.validation-error-message{
+  background-color: #e77070;
+  padding: 10px;
+  font-size: 1rem;
+  margin: 30px 0;
 }

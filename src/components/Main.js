@@ -9,7 +9,7 @@ function Main() {
       <Container fluid className="main-container">
         <Row className="justify-content-center mb-5">
           <Col>
-            <h1>Welcome to Chatter.io!</h1>
+            <h1>Welcome to Chatter-io!</h1>
           </Col>
         </Row>
         <Row className="d-flex justify-content-center text-center">

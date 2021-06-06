@@ -5,6 +5,7 @@ import { Ctx, Types } from "../Context";
 function StageInput(props) {
   let [inp, setInp] = useState("");
   let [stage, setStageState] = useState(1);
+  let [error, setError] = useState(false);
   let ctx = useContext(Ctx);
 
   const { dispatch } = ctx;
@@ -13,26 +14,46 @@ function StageInput(props) {
     console.log(ctx.state);
   });
 
-  const setStage = (nextStage, data) => {
-    if (nextStage === 2) {
-      dispatch({ type: Types.SET_USERNAME, payload: { username: data } });
-    } else if (nextStage === 3) {
-      dispatch({ type: Types.SET_CHATROOM, payload: { chatroom: data } });
+  const setStage = (nextStage, data, type) => {
+    if ((!data && type !== "backButton") || data.length > 25) {
+      setError(true);
+    } else {
+      error && setError(false);
+      if (nextStage === 2) {
+        dispatch({ type: Types.SET_USERNAME, payload: { username: data } });
+      } else if (nextStage === 3) {
+        dispatch({ type: Types.SET_CHATROOM, payload: { chatroom: data } });
+      }
+      setInp("");
+      setStageState(nextStage);
     }
-    setInp("");
-    setStageState(nextStage);
+  };
+
+  //Allow progress by pressing enter, <form> was avoided due to the existence of
+  //two buttons in stage 2 which complicated the use of onSubmit. This is simpler.
+  const handleKeyPress = (event, nextStage, data) => {
+    event.key === "Enter" && setStage(nextStage, data);
   };
 
   let stageInput;
   let stageOne = (
     <>
       <Row>
-        <Col xs="12">Enter your preferred Username</Col>
+        <Col xs="12">
+          <h2>Enter your preferred Username</h2>
+        </Col>
       </Row>
+
       <Row className="d-flex justify-content-center stage-one">
-        <Col md="4">
+        <Col md="6">
           <InputGroup className="group">
-            <input type="text" required value={inp} onChange={(e) => setInp(e.target.value)} />
+            <input
+              autoFocus
+              type="text"
+              value={inp}
+              onChange={(e) => setInp(e.target.value)}
+              onKeyPress={(e) => handleKeyPress(e, 2, inp)}
+            />
             <InputGroup.Prepend>
               <Button className="form-button-next" onClick={() => setStage(2, inp)}>
                 Next
@@ -44,23 +65,41 @@ function StageInput(props) {
           </InputGroup>
         </Col>
       </Row>
+      {error ? (
+        <Row>
+          <Col xs="12">
+            <div className="validation-error-message">
+              Input must be between 1 and 25 characters.
+            </div>
+          </Col>
+        </Row>
+      ) : null}
     </>
   );
 
   let stageTwo = (
     <>
       <Row>
-        <Col xs="12">Search for a Chatroom or enter a new one to start your own</Col>
+        <Col xs="12">
+          <h2>Search for a Chatroom or enter a new one to start your own</h2>
+        </Col>
       </Row>
       <Row className="d-flex justify-content-center stage-two">
-        <Col md="8">
+        <Col md="6">
           <InputGroup className="group">
             <InputGroup.Prepend>
-              <Button className="form-button-back" onClick={() => setStage(1)}>
+              <Button className="form-button-back" onClick={() => setStage(1, "", "backButton")}>
                 Back
               </Button>
             </InputGroup.Prepend>
-            <input type="text" required value={inp} onChange={(e) => setInp(e.target.value)} />
+            <input
+              autoFocus
+              type="text"
+              required
+              value={inp}
+              onChange={(e) => setInp(e.target.value)}
+              onKeyPress={(e) => handleKeyPress(e, 3, inp)}
+            />
             <InputGroup.Prepend>
               <Button className="form-button-next" onClick={() => setStage(3, inp)}>
                 Next
@@ -72,6 +111,15 @@ function StageInput(props) {
           </InputGroup>
         </Col>
       </Row>
+      {error ? (
+        <Row>
+          <Col xs="12">
+            <div className="validation-error-message">
+              Input must be between 1 and 25 characters.
+            </div>
+          </Col>
+        </Row>
+      ) : null}
     </>
   );
 
