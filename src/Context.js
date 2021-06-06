@@ -16,8 +16,12 @@ const StateProvider = ({ children }) => {
       }
 
       //todo: fix this part to show both username and chatroom data
-      case Types.SET_STAGE: {
-        return {...state, stage: {...action.payload} };
+      case Types.SET_USERNAME: {
+        return {...state, ...action.payload };
+      }
+
+      case Types.SET_CHATROOM: {
+        return {...state, ...action.payload };
       }
 
       default:
@@ -33,5 +37,6 @@ export { Ctx, StateProvider };
 export const Types = {
   LOADING_START: "LOADING_START",
   LOADING_DONE: "LOADING_DONE",
-  SET_STAGE: "SET_STAGE",
+  SET_USERNAME: "SET_USERNAME",
+  SET_CHATROOM: "SET_CHATROOM",
 };

@@ -15,10 +15,11 @@ function StageInput(props) {
 
   const setStage = (nextStage, data) => {
     if (nextStage === 2) {
-      dispatch({ type: Types.SET_STAGE, payload: { username: data } });
+      dispatch({ type: Types.SET_USERNAME, payload: { username: data } });
     } else if (nextStage === 3) {
-      dispatch({ type: Types.SET_STAGE, payload: { chatroom: data } });
+      dispatch({ type: Types.SET_CHATROOM, payload: { chatroom: data } });
     }
+    setInp("");
     setStageState(nextStage);
   };
 
@@ -59,9 +60,9 @@ function StageInput(props) {
                 Back
               </Button>
             </InputGroup.Prepend>
-            <input type="text" required />
+            <input type="text" required value={inp} onChange={(e) => setInp(e.target.value)} />
             <InputGroup.Prepend>
-              <Button className="form-button-next" onClick={() => setStage(3)}>
+              <Button className="form-button-next" onClick={() => setStage(3, inp)}>
                 Next
               </Button>
             </InputGroup.Prepend>
