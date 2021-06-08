@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Row, Col, InputGroup, Button } from "react-bootstrap";
 import { Ctx, Types } from "../Context";
+import {Redirect} from "react-router-dom";
 
 function StageInput(props) {
   let [inp, setInp] = useState("");
@@ -15,7 +16,7 @@ function StageInput(props) {
   });
 
   const setStage = (nextStage, data, type) => {
-    if ((!data && type !== "backButton") || data.length > 25) {
+    if ((!data || data.length > 25 || data.length < 3) && type !== "backButton") {
       setError(true);
     } else {
       error && setError(false);
@@ -55,13 +56,16 @@ function StageInput(props) {
               onKeyPress={(e) => handleKeyPress(e, 2, inp)}
             />
             <InputGroup.Prepend>
-              <Button className="form-button-next" onClick={() => setStage(2, inp)}>
+              <Button
+                variant="success"
+                className="form-button-next"
+                onClick={() => setStage(2, inp)}
+              >
                 Next
               </Button>
             </InputGroup.Prepend>
-            <span className="highlight"></span>
             <span className="bar"></span>
-            <label>Name</label>
+            <label>Username</label>
           </InputGroup>
         </Col>
       </Row>
@@ -69,7 +73,7 @@ function StageInput(props) {
         <Row>
           <Col xs="12">
             <div className="validation-error-message">
-              Input must be between 1 and 25 characters.
+              Input must be between 3 and 25 characters.
             </div>
           </Col>
         </Row>
@@ -88,7 +92,11 @@ function StageInput(props) {
         <Col md="6">
           <InputGroup className="group">
             <InputGroup.Prepend>
-              <Button className="form-button-back" onClick={() => setStage(1, "", "backButton")}>
+              <Button
+                variant="secondary"
+                className="form-button-back"
+                onClick={() => setStage(1, "", "backButton")}
+              >
                 Back
               </Button>
             </InputGroup.Prepend>
@@ -101,13 +109,16 @@ function StageInput(props) {
               onKeyPress={(e) => handleKeyPress(e, 3, inp)}
             />
             <InputGroup.Prepend>
-              <Button className="form-button-next" onClick={() => setStage(3, inp)}>
+              <Button
+                variant="success"
+                className="form-button-next"
+                onClick={() => setStage(3, inp)}
+              >
                 Next
               </Button>
             </InputGroup.Prepend>
-            <span className="highlight"></span>
             <span className="bar"></span>
-            <label>Name</label>
+            <label>Chatroom Name</label>
           </InputGroup>
         </Col>
       </Row>
@@ -115,7 +126,7 @@ function StageInput(props) {
         <Row>
           <Col xs="12">
             <div className="validation-error-message">
-              Input must be between 1 and 25 characters.
+              Input must be between 3 and 25 characters.
             </div>
           </Col>
         </Row>
@@ -125,6 +136,7 @@ function StageInput(props) {
 
   if (stage === 1) stageInput = stageOne;
   if (stage === 2) stageInput = stageTwo;
+  if (stage === 3) stageInput = <Redirect to={`/chatroom/${ctx.state.chatroom}`}/>;
 
   return <>{stageInput}</>;
 }

@@ -3,43 +3,65 @@
   width: 100%;
   border-top-left-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
 }
 .form-button-back {
   height: 50px !important;
   width: 100%;
+  border-bottom-right-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
   border-top-right-radius: 0 !important;
 }
 
+.form-button-send{
+  min-height: 100%;
+  width: 20%;
+}
 .group {
   position: relative;
 }
+
 input {
   font-size: 18px;
   padding: 10px 10px 10px 5px;
   display: block;
-  width: 75%;
   border: none;
   border-bottom: 1px solid #757575;
   background-color: #888888a9;
 }
+
+.stage-one input {
+  width: 90%;
+}
+.stage-two input {
+  width: 80%;
+}
+
 input:focus {
   outline: none;
 }
 
-.stage-one label {
+label {
   color: #f5f5f5;
   font-size: 18px;
   font-weight: normal;
+  text-shadow: 0px 0px 10px black;
   position: absolute;
   pointer-events: none;
-  left: 5px;
-  top: 10px;
   transition: 0.2s ease all;
   -moz-transition: 0.2s ease all;
   -webkit-transition: 0.2s ease all;
 }
 
+.stage-one label{
+ top: 15px;
+ left: 10px;
+}
+
+.stage-two label{
+  left: 75px;
+  top: 10px;
+}
 .stage-one input:focus ~ label,
 .stage-one input:valid ~ label {
   top: -20px;
@@ -51,6 +73,7 @@ input:focus {
   color: #f5f5f5;
   font-size: 18px;
   font-weight: normal;
+  text-shadow: 0px 0px 10px black;
   position: absolute;
   pointer-events: none;
   left: 75px;
@@ -71,33 +94,27 @@ input:focus {
 .bar {
   position: relative;
   display: block;
-  width: 75%;
+  width: 90%;
 }
-.stage-one .bar:before,
-.stage-one .bar:after {
+
+.bar:before,
+.bar:after {
   content: "";
   height: 2px;
   width: 0;
   bottom: 1px;
   position: absolute;
-  background: #667edf;
+  background: #ebebeb;
   transition: 0.2s ease all;
   -moz-transition: 0.2s ease all;
   -webkit-transition: 0.2s ease all;
 }
+
 .stage-two .bar:before,
 .stage-two .bar:after {
-  left:60px;
-  content: "";
-  height: 2px;
-  width: 0;
-  bottom: 1px;
-  position: absolute;
-  background: #667edf;
-  transition: 0.2s ease all;
-  -moz-transition: 0.2s ease all;
-  -webkit-transition: 0.2s ease all;
+  left: 60px;
 }
+
 .bar:before {
   left: 50%;
 }
@@ -108,16 +125,6 @@ input:focus {
 .stage-one input:focus ~ .bar:before,
 .stage-one input:focus ~ .bar:after {
   width: 50%;
-}
-
-.stage-one input:focus ~ .bar:before,
-.stage-one input:focus ~ .bar:after {
-  width: 50%;
-}
-
-.stage-two input:focus ~ .bar:before,
-.stage-two input:focus ~ .bar:after {
-  width: 100%;
 }
 
 .stage-two input:focus ~ .bar:before,

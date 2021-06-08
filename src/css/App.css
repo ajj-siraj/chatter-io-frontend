@@ -4,7 +4,7 @@ html {
 }
 
 .background{
-  min-height:500px;
+  min-height:600px;
   height: 100%;
   position:absolute;
   top:0;
@@ -44,4 +44,26 @@ h2{
   padding: 10px;
   font-size: 1rem;
   margin: 30px 0;
+}
+
+.chatroom-area{
+  min-height: 90vh;
+  background-color: #00000059;
+}
+
+.chat-messages-area{
+  min-height: 80vh;
+  background-color: #fff;
+}
+
+.message-box-container{
+  display: flex;
+  min-height: 10vh;
+}
+.message-box{
+  min-width: 80%;
+}
+
+.message-box-container input{
+  min-height: 100%;
 }
