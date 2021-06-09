@@ -1,29 +1,42 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import MessageBox from "./MessageBox";
 import MessageBubble from "./MessageBubble";
+import UserList from "./UserList";
 import { w3cwebsocket } from "websocket";
+import { Ctx } from "../Context";
 
 let client = new w3cwebsocket("ws://localhost:3002/");
 
-client.onerror = function (err) {
+client.onerror = (err) => {
   console.error("Websocket Connection Error", err);
 };
 
-client.onopen = function () {
+client.onopen = () => {
   console.log("WebSocket Client Connected");
 };
 
-client.onclose = function () {
+client.onclose = () => {
   console.warn("Client Closed");
 };
 
 function ChatroomView({ match }) {
   let [messages, addMessage] = useState([]);
+  let [initial, setInitial] = useState(true);
+  let [userList, updateUserList] = useState([]);
   let [msgError, setError] = useState(false);
+  let username = useContext(Ctx).state.username;
 
-  client.onmessage = function (e) {
-    addMessage([...messages, e.data]);
+  useEffect(() => {
+    //initial message to identity client username on the server
+    sendMessage();
+  }, []);
+
+  client.onmessage = (e) => {
+    let parsed = JSON.parse(e.data);
+    console.log(parsed);
+    updateUserList(parsed.userList);
+    parsed.data && addMessage([...messages, parsed.data]);
   };
 
   const validateMsg = (message) => {
@@ -33,7 +46,17 @@ function ChatroomView({ match }) {
   };
 
   const sendMessage = (msg) => {
-    validateMsg(msg) && client.readyState === client.OPEN && client.send(msg);
+    console.log("Messages: ", messages);
+    if (initial) {
+      let initialMsg = {
+        type: "initial",
+        username: username,
+      };
+      client.send(JSON.stringify(initialMsg));
+      setInitial(false);
+    } else {
+      validateMsg(msg) && client.readyState === client.OPEN && client.send(msg);
+    }
   };
 
   return (
@@ -43,16 +66,19 @@ function ChatroomView({ match }) {
           <Col md="8">
             <div className="chatroom-area">
               <div className="chat-messages-area">
-                {messages.map((msg, idx) => (
-                  <MessageBubble key={`msg-${idx}`}>{msg}</MessageBubble>
-                ))}
+                <div>
+                  {messages.map((msg, idx) => {
+                    if(idx === 0) return;
+                    return <MessageBubble key={`msg-${idx}`}>{msg}</MessageBubble>;
+                  })}
+                </div>
               </div>
               <MessageBox room={match.params.chatroomName} sendMessage={sendMessage} />
             </div>
           </Col>
           <Col md="4">
             <div className="chatroom-area">
-              <div>This is the area for the users in the current chatroom</div>
+              <UserList users={userList} />
             </div>
           </Col>
         </Row>

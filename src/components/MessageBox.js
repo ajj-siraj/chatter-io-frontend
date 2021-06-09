@@ -1,20 +1,25 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useContext, useState, useRef } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import { Ctx } from "../Context";
 
 function MessageBox({ sendMessage }) {
-  let [input, updateInput] = useState();
-  let inpRef = useRef(null);
-
   
+  let inpRef = useRef(null);
+  let state = useContext(Ctx).state;
 
   const handleClick = (message) => {
-    
-    sendMessage(message);
+    let msg = {
+      type: "normal",
+      owner: state.username,
+      message: message,
+    };
+
+    sendMessage(JSON.stringify(msg));
     inpRef.value = "";
-  }
+  };
 
   const handleKeyPress = (event, message) => {
-    if(event.key === "Enter") {
+    if (event.key === "Enter") {
       event.preventDefault();
       handleClick(message);
     }
@@ -22,7 +27,11 @@ function MessageBox({ sendMessage }) {
 
   return (
     <div className="message-box-container">
-      <textarea className="message-box" ref={(el) => inpRef=el} onKeyPress={(e) => handleKeyPress(e, inpRef.value)}/>
+      <textarea
+        className="message-box"
+        ref={(el) => (inpRef = el)}
+        onKeyPress={(e) => handleKeyPress(e, inpRef.value)}
+      />
       <Button className="form-button-send" onClick={() => handleClick(inpRef.value)}>
         Send
       </Button>

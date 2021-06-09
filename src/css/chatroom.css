@@ -9,6 +9,11 @@
   overflow-y: scroll;
   background-color: #ffffff8f;
   border-radius: 10px;
+  /* The below two properties are necessary to keep the div scrolled to the bottom.
+  Only caveat is children of this container have to be wrapped in another div
+  in order to escape the top-bottom reversal. Ingenius solution courtesy of StackOverflow. */
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .message-box-container {
@@ -24,22 +29,47 @@
 }
 
 .message-bubble {
-  text-align: left;
   width: 100%;
-  display: block;
+  padding: 40px 15px 20px 10px;
+  position: relative;
+  color: #fff;
+  text-shadow: 1px 1px 1px #353535;
 }
-.message-bubble-user {
-  background-color: #009400;
-  margin: 20px 0px 20px 10px;
-  padding: 20px 10px;
+.message-bubble-other {
+  background-color: #00c200;
+  margin: 20px 0px;
+  text-align: left;
   border-radius: 20px 20px 20px 0px;
   box-shadow: 1px 1px 5px #000;
 }
 
-.message-bubble-other {
-  background-color: #006594;
-  margin: 20px 10px 20px 0px;
-  padding: 20px 10px;
+.message-bubble-owner {
+  text-align: right;
+  background-color: #0091d4;
+  margin: 20px 0px;
   border-radius: 20px 20px 0px 20px;
-  box-shadow: 1px -1px 5px #000;
+  box-shadow: -1px 1px 5px #000;
+}
+
+.message-bubble-username {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  font-size: 14px;
+}
+
+.userlist{
+  background-color: #ddd;
+  box-shadow: 0px 2px 5px #8b8b8b;
+}
+
+.userlist-owner{
+  color: red;
+  font-weight: 800;
+  position: relative;
+  z-index: 10;
+}
+
+.userlist-all{
+  color:salmon;
 }
