@@ -47,18 +47,19 @@ h2{
 }
 
 .chatroom-area{
-  min-height: 90vh;
+  height: 90vh;
   background-color: #00000059;
 }
 
 .chat-messages-area{
-  min-height: 80vh;
+  height: 70vh;
+  overflow-y: scroll;
   background-color: #fff;
 }
 
 .message-box-container{
   display: flex;
-  min-height: 10vh;
+  height: 20vh;
 }
 .message-box{
   min-width: 80%;
