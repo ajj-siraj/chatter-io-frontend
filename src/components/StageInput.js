@@ -104,15 +104,14 @@ function StageInput(props) {
               autoFocus
               type="text"
               required
-              value={inp}
-              onChange={(e) => setInp(e.target.value)}
-              onKeyPress={(e) => handleKeyPress(e, 3, inp)}
+              disabled
+              value="Guest"
             />
             <InputGroup.Prepend>
               <Button
                 variant="success"
                 className="form-button-next"
-                onClick={() => setStage(3, inp)}
+                onClick={() => setStage(3, "Guest")}
               >
                 Next
               </Button>

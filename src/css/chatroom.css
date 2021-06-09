@@ -1,0 +1,45 @@
+.chatroom-area {
+  height: 90vh;
+  background-color: #00000059;
+  border-radius: 10px;
+}
+
+.chat-messages-area {
+  height: 70vh;
+  overflow-y: scroll;
+  background-color: #ffffff8f;
+  border-radius: 10px;
+}
+
+.message-box-container {
+  display: flex;
+  height: 20vh;
+}
+.message-box {
+  min-width: 80%;
+}
+
+.message-box-container input {
+  min-height: 100%;
+}
+
+.message-bubble {
+  text-align: left;
+  width: 100%;
+  display: block;
+}
+.message-bubble-user {
+  background-color: #009400;
+  margin: 20px 0px 20px 10px;
+  padding: 20px 10px;
+  border-radius: 20px 20px 20px 0px;
+  box-shadow: 1px 1px 5px #000;
+}
+
+.message-bubble-other {
+  background-color: #006594;
+  margin: 20px 10px 20px 0px;
+  padding: 20px 10px;
+  border-radius: 20px 20px 0px 20px;
+  box-shadow: 1px -1px 5px #000;
+}

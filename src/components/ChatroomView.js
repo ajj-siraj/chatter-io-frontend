@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import MessageBox from "./MessageBox";
+import MessageBubble from "./MessageBubble";
 import { w3cwebsocket } from "websocket";
 
 let client = new w3cwebsocket("ws://localhost:3002/");
@@ -43,7 +44,7 @@ function ChatroomView({ match }) {
             <div className="chatroom-area">
               <div className="chat-messages-area">
                 {messages.map((msg, idx) => (
-                  <div key={`msg-${idx}`}>{msg}</div>
+                  <MessageBubble key={`msg-${idx}`}>{msg}</MessageBubble>
                 ))}
               </div>
               <MessageBox room={match.params.chatroomName} sendMessage={sendMessage} />

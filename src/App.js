@@ -6,6 +6,7 @@ import ChatroomView from "./components/ChatroomView";
 
 import "./css/App.css";
 import "./css/forms.css";
+import "./css/chatroom.css";
 import "./css/customButtons.css";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
