@@ -34,7 +34,9 @@
   position: relative;
   color: #fff;
   text-shadow: 1px 1px 1px #353535;
+  overflow-wrap: normal;
 }
+
 .message-bubble-other {
   background-color: #00c200;
   margin: 20px 0px;
@@ -58,18 +60,27 @@
   font-size: 14px;
 }
 
-.userlist{
+.userlist {
   background-color: #ddd;
   box-shadow: 0px 2px 5px #8b8b8b;
 }
 
-.userlist-owner{
+.userlist-owner {
   color: red;
   font-weight: 800;
   position: relative;
   z-index: 10;
 }
 
-.userlist-all{
-  color:salmon;
+.userlist-all {
+  color: salmon;
+}
+
+.readmore{
+  color: #b42a00;
+}
+.readmore:hover{
+  color:#922200;
+  cursor: pointer;
+  text-decoration: underline;
 }
