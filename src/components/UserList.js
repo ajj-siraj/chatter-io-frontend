@@ -1,15 +1,13 @@
-import React, { useContext } from "react";
-import { Row, Col } from "react-bootstrap";
-import { Ctx } from "../Context";
+import React from "react";
 
-function UserList({ users }) {
-  let owner = useContext(Ctx).state.username;
-  console.log("users: ", users);
+
+function UserList({ users, username }) {
+
   return (
     <div>
       {users.map((user, idx) => (
         <div
-          className={`userlist ${user === owner ? `userlist-owner` : `userlist-user`}`}
+          className={`userlist ${user === username ? `userlist-owner` : `userlist-user`}`}
           key={`user-${idx}`}
         >
           {user}

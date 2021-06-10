@@ -25,12 +25,18 @@ function ChatroomView({ match }) {
   let [initial, setInitial] = useState(true);
   let [userList, updateUserList] = useState([]);
   let [msgError, setError] = useState(false);
+
   let username = useContext(Ctx).state.username;
 
   useEffect(() => {
     //initial message to identity client username on the server
     sendMessage();
+
+    //trigger re-render every 5 seconds to update user list in case of changes without having to wait for a new message.
+    setInterval(() => sendMessage("refresh"), 5000);
   }, []);
+
+  
 
   client.onmessage = (e) => {
     let parsed = JSON.parse(e.data);
@@ -52,8 +58,13 @@ function ChatroomView({ match }) {
         type: "initial",
         username: username,
       };
-      client.send(JSON.stringify(initialMsg));
+      client.readyState === client.OPEN && client.send(JSON.stringify(initialMsg));
       setInitial(false);
+    } else if (msg === "refresh") {
+      let refreshMsg = {
+        type: "refresh"
+      };
+      client.readyState === client.OPEN && client.send(JSON.stringify(refreshMsg));
     } else {
       validateMsg(msg) && client.readyState === client.OPEN && client.send(msg);
     }
@@ -68,7 +79,7 @@ function ChatroomView({ match }) {
               <div className="chat-messages-area">
                 <div>
                   {messages.map((msg, idx) => {
-                    if(idx === 0) return;
+                    if (idx === 0) return;
                     return <MessageBubble key={`msg-${idx}`}>{msg}</MessageBubble>;
                   })}
                 </div>
@@ -78,7 +89,7 @@ function ChatroomView({ match }) {
           </Col>
           <Col md="4">
             <div className="chatroom-area">
-              <UserList users={userList} />
+              <UserList users={userList} username={username} />
             </div>
           </Col>
         </Row>
