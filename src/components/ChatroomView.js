@@ -16,7 +16,7 @@ function ChatroomView({ match }) {
   let [userList, updateUserList] = useState([]);
   let [msgError, setError] = useState(false);
   let ctx = useContext(Ctx);
-  let {username, isLoading} = ctx.state;
+  let { username, isLoading } = ctx.state;
 
   const { dispatch } = ctx;
 
@@ -24,7 +24,8 @@ function ChatroomView({ match }) {
     //initial message to identity client username on the server
     sendMessage();
 
-    dispatch({type: Types.LOADING_START});
+    dispatch({ type: Types.LOADING_START });
+    setTimeout(() => dispatch({ type: Types.LOADING_DONE }), 5000);
 
     //trigger re-render every 5 seconds to update user list in case of changes without having to wait for a new message.
     setInterval(() => sendMessage("refresh"), 5000);
@@ -39,7 +40,7 @@ function ChatroomView({ match }) {
   };
 
   client.onmessage = (e) => {
-    client.readyState === client.OPEN && dispatch({type: Types.LOADING_DONE});
+    // client.readyState === client.OPEN && dispatch({type: Types.LOADING_DONE});
     let parsed = JSON.parse(e.data);
     console.log("Parsed: ", parsed);
     updateUserList(parsed.userList);
@@ -71,35 +72,34 @@ function ChatroomView({ match }) {
     }
   };
 
-  if (isLoading) return <Loading />;
-  else
-    return (
-      <>
-        <Container fluid className="chatroom-container">
-          <Row className="justify-content-center mt-3 mb-0">
-            <Col md="8">
-              <div className="chatroom-area">
-                <div className="chat-messages-area">
-                  <div>
-                    {messages.map((msg, idx) => {
-                      if (idx === 0) return;
-                      return <MessageBubble key={`msg-${idx}`}>{msg}</MessageBubble>;
-                    })}
-                  </div>
+  return (
+    <>
+      {isLoading ? <Loading isLoading={isLoading} /> : null}
+      <Container fluid className="chatroom-container">
+        <Row className="justify-content-center mt-3 mb-0">
+          <Col md="8">
+            <div className="chatroom-area">
+              <div className="chat-messages-area">
+                <div>
+                  {messages.map((msg, idx) => {
+                    if (idx === 0) return;
+                    return <MessageBubble key={`msg-${idx}`}>{msg}</MessageBubble>;
+                  })}
                 </div>
-                <MessageBox room={match.params.chatroomName} sendMessage={sendMessage} />
               </div>
-            </Col>
-            <Col md="4">
-              <div className="chatroom-area">
-                <UserList users={userList} username={username} />
-              </div>
-            </Col>
-          </Row>
-        </Container>
-        <div className="background"></div>
-      </>
-    );
+              <MessageBox room={match.params.chatroomName} sendMessage={sendMessage} />
+            </div>
+          </Col>
+          <Col md="4">
+            <div className="chatroom-area">
+              <UserList users={userList} username={username} />
+            </div>
+          </Col>
+        </Row>
+      </Container>
+      <div className="background"></div>
+    </>
+  );
 }
 
 export default ChatroomView;

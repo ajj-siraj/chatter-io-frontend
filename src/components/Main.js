@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
 import StageInput from "./StageInput";
 
 function Main() {
-
   return (
     <>
       <Container fluid className="main-container">
