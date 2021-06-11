@@ -14,7 +14,7 @@ function MessageBox({ sendMessage }) {
       message: message,
     };
 
-    sendMessage(JSON.stringify(msg));
+    sendMessage(msg);
     inpRef.value = "";
   };
 

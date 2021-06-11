@@ -3,51 +3,52 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import MessageBox from "./MessageBox";
 import MessageBubble from "./MessageBubble";
 import UserList from "./UserList";
+import Loading from "./Loading";
+
 import { w3cwebsocket } from "websocket";
-import { Ctx } from "../Context";
+import { Ctx, Types } from "../Context";
 
 let client = new w3cwebsocket("ws://localhost:3002/");
-
-client.onerror = (err) => {
-  console.error("Websocket Connection Error", err);
-};
-
-client.onopen = () => {
-  console.log("WebSocket Client Connected");
-};
-
-client.onclose = () => {
-  console.warn("Client Closed");
-};
 
 function ChatroomView({ match }) {
   let [messages, addMessage] = useState([]);
   let [initial, setInitial] = useState(true);
   let [userList, updateUserList] = useState([]);
   let [msgError, setError] = useState(false);
+  let ctx = useContext(Ctx);
+  let {username, isLoading} = ctx.state;
 
-  let username = useContext(Ctx).state.username;
+  const { dispatch } = ctx;
 
   useEffect(() => {
     //initial message to identity client username on the server
     sendMessage();
 
+    dispatch({type: Types.LOADING_START});
+
     //trigger re-render every 5 seconds to update user list in case of changes without having to wait for a new message.
     setInterval(() => sendMessage("refresh"), 5000);
   }, []);
 
-  
+  client.onerror = (err) => {
+    console.error("Websocket Connection Error", err);
+  };
+
+  client.onclose = () => {
+    console.warn("Client Closed");
+  };
 
   client.onmessage = (e) => {
+    client.readyState === client.OPEN && dispatch({type: Types.LOADING_DONE});
     let parsed = JSON.parse(e.data);
-    console.log(parsed);
+    console.log("Parsed: ", parsed);
     updateUserList(parsed.userList);
     parsed.data && addMessage([...messages, parsed.data]);
   };
 
   const validateMsg = (message) => {
     const regex = /(\n+)/g;
-    if (message.length < 1 || regex.test(message)) return false;
+    if (message.message.length < 1 || regex.test(message.message)) return false;
     else return true;
   };
 
@@ -62,41 +63,43 @@ function ChatroomView({ match }) {
       setInitial(false);
     } else if (msg === "refresh") {
       let refreshMsg = {
-        type: "refresh"
+        type: "refresh",
       };
       client.readyState === client.OPEN && client.send(JSON.stringify(refreshMsg));
     } else {
-      validateMsg(msg) && client.readyState === client.OPEN && client.send(msg);
+      validateMsg(msg) && client.readyState === client.OPEN && client.send(JSON.stringify(msg));
     }
   };
 
-  return (
-    <>
-      <Container fluid className="chatroom-container">
-        <Row className="justify-content-center mt-3 mb-0">
-          <Col md="8">
-            <div className="chatroom-area">
-              <div className="chat-messages-area">
-                <div>
-                  {messages.map((msg, idx) => {
-                    if (idx === 0) return;
-                    return <MessageBubble key={`msg-${idx}`}>{msg}</MessageBubble>;
-                  })}
+  if (isLoading) return <Loading />;
+  else
+    return (
+      <>
+        <Container fluid className="chatroom-container">
+          <Row className="justify-content-center mt-3 mb-0">
+            <Col md="8">
+              <div className="chatroom-area">
+                <div className="chat-messages-area">
+                  <div>
+                    {messages.map((msg, idx) => {
+                      if (idx === 0) return;
+                      return <MessageBubble key={`msg-${idx}`}>{msg}</MessageBubble>;
+                    })}
+                  </div>
                 </div>
+                <MessageBox room={match.params.chatroomName} sendMessage={sendMessage} />
               </div>
-              <MessageBox room={match.params.chatroomName} sendMessage={sendMessage} />
-            </div>
-          </Col>
-          <Col md="4">
-            <div className="chatroom-area">
-              <UserList users={userList} username={username} />
-            </div>
-          </Col>
-        </Row>
-      </Container>
-      <div className="background"></div>
-    </>
-  );
+            </Col>
+            <Col md="4">
+              <div className="chatroom-area">
+                <UserList users={userList} username={username} />
+              </div>
+            </Col>
+          </Row>
+        </Container>
+        <div className="background"></div>
+      </>
+    );
 }
 
 export default ChatroomView;

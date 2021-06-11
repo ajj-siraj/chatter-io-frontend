@@ -8,7 +8,10 @@ function StageInput(props) {
   let [stage, setStageState] = useState(1);
   let [error, setError] = useState(false);
   let ctx = useContext(Ctx);
+  // let [isLoading, setLoading] = useState(false);
 
+  // isLoading = ctx.state.isLoading;
+  
   const { dispatch } = ctx;
 
   useEffect(() => {

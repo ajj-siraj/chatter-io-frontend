@@ -11,7 +11,6 @@ function MessageBubble({ children }) {
   let [readMoreClicked, setReadMoreClicked] = useState(false);
 
   useEffect(() => {
-    console.log(readMore, readMoreClicked);
     if (
       !readMore &&
       children.message &&
@@ -21,10 +20,13 @@ function MessageBubble({ children }) {
       setMessage(children.message.slice(0, 500) + "...");
       setMessageRemainder(children.message.slice(500));
       setReadMore(true);
+    } else if (!readMore && children.message && children.type === "normal") {
+      setMessage(children.message);
     }
   }, [children]);
 
   const handleReadMore = () => {
+    console.log(message);
     setMessage(message + messageRemainder);
     setReadMoreClicked(true);
   };
@@ -39,7 +41,7 @@ function MessageBubble({ children }) {
                 <div className={`message-bubble message-bubble-owner`}>
                   <div className="message-bubble-username">{children.owner}</div>
                   {message}
-                  {!readMoreClicked ? (
+                  {readMore && !readMoreClicked ? (
                     <div className="readmore" onClick={handleReadMore}>
                       Read More
                     </div>

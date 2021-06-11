@@ -34,7 +34,7 @@
   position: relative;
   color: #fff;
   text-shadow: 1px 1px 1px #353535;
-  overflow-wrap: normal;
+  overflow-wrap: anywhere;
 }
 
 .message-bubble-other {
