@@ -3,7 +3,7 @@ html {
   text-align: center;
 }
 
-.loading-container{
+.loading-container {
   position: absolute;
   z-index: 1000;
   top: 0;
@@ -14,22 +14,17 @@ html {
   opacity: 0;
 }
 
-.loading-spinner{
-  position: absolute;
-  top: 45%;
-  left: 48%;
-}
-.background{
-  height:600px;
+.background {
+  height: 600px;
   height: 100%;
-  position:absolute;
-  top:0;
+  position: absolute;
+  top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   content: "";
-  z-index:-1;
-  background-image: url('../assets/background.jpg');
+  z-index: -1;
+  background-image: url("../assets/background.jpg");
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -43,22 +38,21 @@ html {
   padding-top: 10%;
 }
 
-h1{
-  font-family: 'Caveat', cursive;
+h1 {
+  font-family: "Caveat", cursive;
   font-size: 4rem !important;
   color: #fff;
   text-shadow: 0px 0px 10px black;
 }
 
-h2{
-  font-family: 'Amatic SC', cursive;
+h2 {
+  font-family: "Amatic SC", cursive;
   margin-bottom: 50px !important;
 }
 
-.validation-error-message{
+.validation-error-message {
   background-color: #e77070;
   padding: 10px;
   font-size: 1rem;
   margin: 30px 0;
 }
-

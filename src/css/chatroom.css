@@ -7,6 +7,7 @@
 .chat-messages-area {
   height: 70vh;
   overflow-y: scroll;
+  scroll-behavior: smooth;
   background-color: #ffffff8f;
   border-radius: 10px;
   /* The below two properties are necessary to keep the div scrolled to the bottom.
@@ -14,6 +15,10 @@
   in order to escape the top-bottom reversal. Ingenius solution courtesy of StackOverflow. */
   display: flex;
   flex-direction: column-reverse;
+}
+
+.chat-users-area{
+  overflow-y: scroll;
 }
 
 .message-box-container {
@@ -38,7 +43,7 @@
 }
 
 .message-bubble-other {
-  background-color: #00c200;
+  background-color: #3ee43e;
   margin: 20px 0px;
   text-align: left;
   border-radius: 20px 20px 20px 0px;
@@ -61,26 +66,54 @@
 }
 
 .userlist {
-  background-color: #ddd;
+  position: relative;
+  font-size: 1.25rem;
   box-shadow: 0px 2px 5px #8b8b8b;
+  padding: 20px;
+  text-shadow: 0px 0px 5px #000;
+
+}
+
+.userlist::before {
+  position: absolute;
+  content: "";
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(135deg, #5ee7df 0%, #b490ca 100%);
+  z-index: -1;
+  transition: opacity 0.3s linear;
+  opacity: 0;
+}
+
+.userlist:hover::before {
+  opacity: 1;
+}
+
+.userlist-owner:hover::before {
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
 }
 
 .userlist-owner {
-  color: red;
+  color: #fcf39e;
   font-weight: 800;
   position: relative;
-  z-index: 10;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  /* z-index: 10; */
 }
 
 .userlist-all {
-  color: salmon;
+  color: #fae9e9;
 }
 
-.readmore{
+.readmore {
   color: #b42a00;
 }
-.readmore:hover{
-  color:#922200;
+.readmore:hover {
+  color: #922200;
   cursor: pointer;
   text-decoration: underline;
 }

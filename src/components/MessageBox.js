@@ -32,7 +32,7 @@ function MessageBox({ sendMessage }) {
         ref={(el) => (inpRef = el)}
         onKeyPress={(e) => handleKeyPress(e, inpRef.value)}
       />
-      <Button className="form-button-send" onClick={() => handleClick(inpRef.value)}>
+      <Button variant="primary" className="form-button-send" onClick={() => handleClick(inpRef.value)}>
         Send
       </Button>
     </div>

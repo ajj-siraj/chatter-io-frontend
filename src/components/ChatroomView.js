@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import MessageBox from "./MessageBox";
 import MessageBubble from "./MessageBubble";
@@ -17,7 +17,7 @@ function ChatroomView({ match }) {
   let [msgError, setError] = useState(false);
   let ctx = useContext(Ctx);
   let { username, isLoading } = ctx.state;
-
+  let chatBox = useRef(null);
   const { dispatch } = ctx;
 
   useEffect(() => {
@@ -25,12 +25,17 @@ function ChatroomView({ match }) {
     sendMessage();
 
     dispatch({ type: Types.LOADING_START });
-    setTimeout(() => dispatch({ type: Types.LOADING_DONE }), 5000);
+    setTimeout(() => dispatch({ type: Types.LOADING_DONE }), 2000);
 
     //trigger re-render every 5 seconds to update user list in case of changes without having to wait for a new message.
     setInterval(() => sendMessage("refresh"), 5000);
   }, []);
 
+  useEffect(() => {
+    //listen to changes on messages to automatically scroll down if user scrolled up
+    chatBox.current.scrollTo(0, 0);
+  },[messages]);
+  
   client.onerror = (err) => {
     console.error("Websocket Connection Error", err);
   };
@@ -40,21 +45,19 @@ function ChatroomView({ match }) {
   };
 
   client.onmessage = (e) => {
-    // client.readyState === client.OPEN && dispatch({type: Types.LOADING_DONE});
     let parsed = JSON.parse(e.data);
-    console.log("Parsed: ", parsed);
     updateUserList(parsed.userList);
-    parsed.data && addMessage([...messages, parsed.data]);
+    parsed.data && parsed.data.type === "normal" && addMessage([...messages, parsed.data]);
   };
 
   const validateMsg = (message) => {
     const regex = /(\n+)/g;
-    if (message.message.length < 1 || regex.test(message.message)) return false;
+    if (message.message.length < 1 || message.message.length > 1000 || regex.test(message.message))
+      return false;
     else return true;
   };
 
   const sendMessage = (msg) => {
-    console.log("Messages: ", messages);
     if (initial) {
       let initialMsg = {
         type: "initial",
@@ -79,19 +82,18 @@ function ChatroomView({ match }) {
         <Row className="justify-content-center mt-3 mb-0">
           <Col md="8">
             <div className="chatroom-area">
-              <div className="chat-messages-area">
+              <div className="chat-messages-area" ref={chatBox}>
                 <div>
-                  {messages.map((msg, idx) => {
-                    if (idx === 0) return;
-                    return <MessageBubble key={`msg-${idx}`}>{msg}</MessageBubble>;
-                  })}
+                  {messages.map((msg, idx) => (
+                    <MessageBubble key={`msg-${idx}`}>{msg}</MessageBubble>
+                  ))}
                 </div>
               </div>
               <MessageBox room={match.params.chatroomName} sendMessage={sendMessage} />
             </div>
           </Col>
           <Col md="4">
-            <div className="chatroom-area">
+            <div className="chatroom-area chat-users-area">
               <UserList users={userList} username={username} />
             </div>
           </Col>

@@ -18,10 +18,12 @@
 }
 
 .btn-primary {
-  background-color: #009688;
+  background-color: #51d471 !important;
+  color: #000 !important;
 }
 .btn-primary:hover, .btn-primary:focus {
-  background-color: #00b09f;
+  background-color: #47995c !important;
+  color: #fff !important;
 }
 
 .btn-success {

@@ -6,6 +6,7 @@ function MessageBubble({ children }) {
   let user = useContext(Ctx).state.username;
   let owner = children.owner;
   let [message, setMessage] = useState("");
+  let [messageError, setMessageError] = useState(false);
   let [messageRemainder, setMessageRemainder] = useState("");
   let [readMore, setReadMore] = useState(false);
   let [readMoreClicked, setReadMoreClicked] = useState(false);
@@ -15,13 +16,23 @@ function MessageBubble({ children }) {
       !readMore &&
       children.message &&
       children.type === "normal" &&
-      children.message.length > 500
+      children.message.length > 500 &&
+      children.message.length < 1000
     ) {
+      messageError && setMessageError(false);
       setMessage(children.message.slice(0, 500) + "...");
       setMessageRemainder(children.message.slice(500));
       setReadMore(true);
-    } else if (!readMore && children.message && children.type === "normal") {
+    } else if (
+      !readMore &&
+      children.message &&
+      children.type === "normal" &&
+      children.message.length < 1000
+    ) {
+      messageError && setMessageError(false);
       setMessage(children.message);
+    } else {
+      setMessageError(true);
     }
   }, [children]);
 
@@ -55,7 +66,7 @@ function MessageBubble({ children }) {
                 <div className={`message-bubble message-bubble-other`}>
                   <div className="message-bubble-username">{children.owner}</div>
                   {message}
-                  {!readMoreClicked ? (
+                  {readMore && !readMoreClicked ? (
                     <div className="readmore" onClick={handleReadMore}>
                       Read More
                     </div>
