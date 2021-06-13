@@ -7,6 +7,7 @@
 .chat-messages-area {
   height: 70vh;
   overflow-y: scroll;
+  overflow-x: hidden;
   scroll-behavior: smooth;
   background-color: #ffffff8f;
   border-radius: 10px;
@@ -33,6 +34,9 @@
   min-height: 100%;
 }
 
+.message-bubble-container{
+  transform-origin: center !important;
+}
 .message-bubble {
   width: 100%;
   padding: 40px 15px 20px 10px;
@@ -43,7 +47,7 @@
 }
 
 .message-bubble-other {
-  background-color: #3ee43e;
+  background-color: #DE9151;
   margin: 20px 0px;
   text-align: left;
   border-radius: 20px 20px 20px 0px;
@@ -52,7 +56,7 @@
 
 .message-bubble-owner {
   text-align: right;
-  background-color: #0091d4;
+  background-color: #3C3744;
   margin: 20px 0px;
   border-radius: 20px 20px 0px 20px;
   box-shadow: -1px 1px 5px #000;
