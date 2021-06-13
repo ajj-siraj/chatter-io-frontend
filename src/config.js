@@ -1,0 +1,1 @@
+export const wsEndpoint = "wss://chatterer-io.herokuapp.com";

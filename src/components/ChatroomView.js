@@ -7,8 +7,9 @@ import Loading from "./Loading";
 
 import { w3cwebsocket } from "websocket";
 import { Ctx, Types } from "../Context";
+import {wsEndpoint} from "../config";
 
-let client = new w3cwebsocket("ws://localhost:3002/");
+let client = new w3cwebsocket(wsEndpoint);
 
 function ChatroomView({ match }) {
   let [messages, addMessage] = useState([]);
