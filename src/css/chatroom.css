@@ -52,6 +52,7 @@
   text-align: left;
   border-radius: 20px 20px 20px 0px;
   box-shadow: 1px 1px 5px #000;
+  margin-left: 10px;
 }
 
 .message-bubble-owner {
@@ -60,6 +61,7 @@
   margin: 20px 0px;
   border-radius: 20px 20px 0px 20px;
   box-shadow: -1px 1px 5px #000;
+  margin-left: -10px;
 }
 
 .message-bubble-username {

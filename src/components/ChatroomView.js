@@ -25,7 +25,6 @@ function ChatroomView({ match }) {
     sendMessage();
 
     dispatch({ type: Types.LOADING_START });
-    setTimeout(() => dispatch({ type: Types.LOADING_DONE }), 2000);
 
     //trigger re-render every 5 seconds to update user list in case of changes without having to wait for a new message.
     setInterval(() => sendMessage("refresh"), 5000);
@@ -46,6 +45,7 @@ function ChatroomView({ match }) {
 
   client.onmessage = (e) => {
     let parsed = JSON.parse(e.data);
+    parsed.data.type==="initial" && dispatch({ type: Types.LOADING_DONE })
     updateUserList(parsed.userList);
     parsed.data && parsed.data.type === "normal" && addMessage([...messages, parsed.data]);
   };
