@@ -1,4 +1,4 @@
-# <h1 align="center>Chatter-io</h1>
+# <h1 align="center">Chatter-io</h1>
 ## Overview
 Chatter-io is a demo real-time chatting application. Users enter their username, and they are connected to the 'Guest' chatroom. Connected users can see the list of other connected users in the chatroom as well.
 This project includes a small server portion in [this repository](https://github.com/ajj-siraj/chatter-io-server), employing Websockets to facilitate the communication between connected users.
