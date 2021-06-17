@@ -15,13 +15,20 @@ const StateProvider = ({ children }) => {
         return  {...state, isLoading: false };
       }
 
-      //todo: fix this part to show both username and chatroom data
       case Types.SET_USERNAME: {
         return {...state, ...action.payload };
       }
 
       case Types.SET_CHATROOM: {
         return {...state, ...action.payload };
+      }
+
+      case Types.SET_ERROR: {
+        return {...state, ERROR: {status: true, message: action.payload}}
+      }
+
+      case Types.REMOVE_ERROR: {
+        return {...state, ERROR: {status: false, message: action.payload}}
       }
 
       default:
@@ -39,4 +46,6 @@ export const Types = {
   LOADING_DONE: "LOADING_DONE",
   SET_USERNAME: "SET_USERNAME",
   SET_CHATROOM: "SET_CHATROOM",
+  SET_ERROR: "SET_ERROR",
+  REMOVE_ERROR: "REMOVE_ERROR",
 };

@@ -4,6 +4,7 @@ import MessageBox from "./MessageBox";
 import MessageBubble from "./MessageBubble";
 import UserList from "./UserList";
 import Loading from "./Loading";
+import Error from "./Error";
 
 import { w3cwebsocket } from "websocket";
 import { Ctx, Types } from "../Context";
@@ -17,7 +18,7 @@ function ChatroomView({ match }) {
   let [userList, updateUserList] = useState([]);
   let [msgError, setError] = useState(false);
   let ctx = useContext(Ctx);
-  let { username, isLoading } = ctx.state;
+  let { username, isLoading, ERROR } = ctx.state;
   let chatBox = useRef(null);
   const { dispatch } = ctx;
 
@@ -37,6 +38,7 @@ function ChatroomView({ match }) {
   },[messages]);
   
   client.onerror = (err) => {
+    dispatch({type: Types.SET_ERROR, payload: "Websocket Connection Error"})
     console.error("Websocket Connection Error", err);
   };
 
@@ -78,7 +80,8 @@ function ChatroomView({ match }) {
 
   return (
     <>
-      {isLoading ? <Loading isLoading={isLoading} /> : null}
+      {isLoading && !ERROR ? <Loading isLoading={isLoading} /> : null}
+      {ERROR ? <Error error={ERROR} /> : null}
       <Container fluid className="chatroom-container">
         <Row className="justify-content-center mt-3 mb-0">
           <Col md="8">

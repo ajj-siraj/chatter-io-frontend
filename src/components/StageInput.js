@@ -46,8 +46,8 @@ function StageInput(props) {
         </Col>
       </Row>
 
-      <Row className="d-flex justify-content-center stage-one">
-        <Col md="6">
+      <Row className="d-flex justify-content-center no-gutters stage-one">
+        <Col md="8" lg="6" className="mx-0 px-0">
           <InputGroup className="group">
             <input
               autoFocus
@@ -56,18 +56,21 @@ function StageInput(props) {
               onChange={(e) => setInp(e.target.value)}
               onKeyPress={(e) => handleKeyPress(e, 2, inp)}
             />
-            <InputGroup.Prepend>
-              <Button
-                variant="success"
-                className="form-button-next"
-                onClick={() => setStage(2, inp)}
-              >
-                Next
-              </Button>
-            </InputGroup.Prepend>
             <span className="bar"></span>
             <label>Username</label>
           </InputGroup>
+        </Col>
+      </Row>
+      <Row className="d-flex justify-content-center no-gutters mb-5">
+        <Col md="8" lg="6" className="mx-0 px-0">
+          <Button
+            block
+            variant="success"
+            className="form-button-next"
+            onClick={() => setStage(2, inp)}
+          >
+            Next
+          </Button>
         </Col>
       </Row>
       {error ? (

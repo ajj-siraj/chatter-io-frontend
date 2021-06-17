@@ -14,6 +14,17 @@ html {
   opacity: 0;
 }
 
+.error-container {
+  position: absolute;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  height: 300px;
+  width: 500px;
+  background-color: #eeeeee;
+  opacity: 0;
+}
+
 .background {
   height: 600px;
   height: 100%;
