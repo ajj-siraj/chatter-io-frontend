@@ -2,6 +2,7 @@
   height: 90vh;
   background-color: #00000059;
   border-radius: 10px;
+  backdrop-filter: blur(10px);
 }
 
 .chat-messages-area {
